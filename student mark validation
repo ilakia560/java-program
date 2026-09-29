@@ -1,0 +1,53 @@
+import java.util.Scanner;
+import java.util.InputMismatchException;
+
+class InvalidMarkException extends Exception {
+
+    InvalidMarkException(String message) {
+        super(message);
+    }
+}
+
+public class StudentMarks {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        try {
+            System.out.print("Enter student name: ");
+            String name = sc.nextLine();
+
+            System.out.print("Enter student mark: ");
+            int mark = sc.nextInt();
+
+            if (mark < 0 || mark > 100) {
+                throw new InvalidMarkException(
+                    "Invalid mark! Mark must be between 0 and 100."
+                );
+            }
+
+            System.out.println("Student Name: " + name);
+            System.out.println("Mark: " + mark);
+            System.out.println("The mark is valid.");
+
+        } catch (InvalidMarkException e) {
+
+            System.out.println("Exception: " + e.getMessage());
+
+        } catch (InputMismatchException e) {
+
+            System.out.println(
+                "Exception: Please enter a number for the mark."
+            );
+
+        } finally {
+
+            System.out.println(
+                "Mark validation process completed."
+            );
+
+            sc.close();
+        }
+    }
+}
