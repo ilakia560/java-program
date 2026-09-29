@@ -1,0 +1,179 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Scanner;
+
+class Book {
+    int id;
+    String title;
+    String author;
+    double price;
+
+    Book(int id, String title, String author, double price) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.price = price;
+    }
+
+    void display() {
+        System.out.println("Book ID: " + id);
+        System.out.println("Title: " + title);
+        System.out.println("Author: " + author);
+        System.out.println("Price: " + price);
+        System.out.println("----------");
+    }
+}
+
+public class BookManagement {
+
+    static ArrayList<Book> books = new ArrayList<>();
+    static HashMap<Integer, Book> bookMap = new HashMap<>();
+    static Scanner sc = new Scanner(System.in);
+
+    static void addBook() {
+        System.out.print("Enter Book ID: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        if (bookMap.containsKey(id)) {
+            System.out.println("Book ID already exists!");
+            return;
+        }
+
+        System.out.print("Enter Book Title: ");
+        String title = sc.nextLine();
+
+        System.out.print("Enter Author: ");
+        String author = sc.nextLine();
+
+        System.out.print("Enter Price: ");
+        double price = sc.nextDouble();
+
+        Book book = new Book(id, title, author, price);
+
+        books.add(book);
+        bookMap.put(id, book);
+
+        System.out.println("Book added successfully!");
+    }
+
+    static void viewBooks() {
+        if (books.isEmpty()) {
+            System.out.println("No Books Available!");
+            return;
+        }
+
+        System.out.println("\n--- BOOK RECORDS ---");
+
+        Iterator<Book> iterator = books.iterator();
+
+        while (iterator.hasNext()) {
+            Book book = iterator.next();
+            book.display();
+        }
+    }
+
+    static void searchBook() {
+        System.out.print("Enter Book ID to search: ");
+        int id = sc.nextInt();
+
+        Book book = bookMap.get(id);
+
+        if (book != null) {
+            System.out.println("\nBook Found:");
+            book.display();
+        } else {
+            System.out.println("Book NOT Found!");
+        }
+    }
+
+    static void updateBook() {
+        System.out.print("Enter Book ID to update: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        Book book = bookMap.get(id);
+
+        if (book == null) {
+            System.out.println("Book not found!");
+            return;
+        }
+
+        System.out.print("Enter new Title: ");
+        book.title = sc.nextLine();
+
+        System.out.print("Enter new Author: ");
+        book.author = sc.nextLine();
+
+        System.out.print("Enter new Price: ");
+        book.price = sc.nextDouble();
+
+        System.out.println("Book updated successfully!");
+    }
+
+    static void deleteBook() {
+        System.out.print("Enter Book ID to delete: ");
+        int id = sc.nextInt();
+
+        Iterator<Book> iterator = books.iterator();
+        boolean found = false;
+
+        while (iterator.hasNext()) {
+            Book book = iterator.next();
+
+            if (book.id == id) {
+                iterator.remove();
+                bookMap.remove(id);
+                found = true;
+
+                System.out.println("Book deleted successfully!");
+                break;
+            }
+        }
+
+        if (!found) {
+            System.out.println("Book not found!");
+        }
+    }
+
+    public static void main(String[] args) {
+
+        while (true) {
+            System.out.println("\n1. Add Book");
+            System.out.println("2. View Book");
+            System.out.println("3. Search Book");
+            System.out.println("4. Update Book");
+            System.out.println("5. Delete Book");
+
+            System.out.print("Enter your choice: ");
+            int choice = sc.nextInt();
+
+            switch (choice) {
+
+                case 1:
+                    addBook();
+                    break;
+
+                case 2:
+                    viewBooks();
+                    break;
+
+                case 3:
+                    searchBook();
+                    break;
+
+                case 4:
+                    updateBook();
+                    break;
+
+                case 5:
+                    deleteBook();
+                    break;
+
+                default:
+                    System.out.println("Invalid choice!");
+            }
+        }
+    }
+}
