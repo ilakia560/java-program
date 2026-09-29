@@ -1,0 +1,33 @@
+class Data {
+    synchronized void display() {
+        try {
+            System.out.println("Thread is waiting...");
+            wait();
+            System.out.println("Thread resumed.");
+        } catch (InterruptedException e) {
+            System.out.println(e);
+        }
+    }
+
+    synchronized void update() {
+        System.out.println("Sending notification...");
+        notifyAll();
+    }
+}
+
+public class InterThread {
+    public static void main(String[] args) {
+        Data d = new Data();
+
+        Thread t1 = new Thread(() -> d.display());
+        Thread t2 = new Thread(() -> d.update());
+
+        t1.start();
+
+        try {
+            Thread.sleep(1000);
+        } catch (Exception e) {}
+
+        t2.start();
+    }
+}
