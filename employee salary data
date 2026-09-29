@@ -1,0 +1,82 @@
+import java.util.Arrays;
+import java.util.List;
+
+class Employee {
+    int id;
+    String name;
+    double salary;
+
+    Employee(int id, String name, double salary) {
+        this.id = id;
+        this.name = name;
+        this.salary = salary;
+    }
+
+    @Override
+    public String toString() {
+        return id + " " + name + " Salary: " + salary;
+    }
+}
+
+public class EmployeeSalary {
+    public static void main(String[] args) {
+
+        List<Employee> employees = Arrays.asList(
+            new Employee(101, "Rahul", 45000),
+            new Employee(102, "Priya", 65000),
+            new Employee(103, "Amit", 55000),
+            new Employee(104, "Sneha", 80000),
+            new Employee(105, "Kiran", 35000)
+        );
+
+        double threshold = 60000;
+
+        // Employees with salary above threshold
+        System.out.println("Employees with salary above " + threshold);
+
+        employees.stream()
+                .filter(e -> e.salary >= threshold)
+                .forEach(System.out::println);
+
+        // Salaries in ascending order
+        System.out.println("\nSalaries in ascending order:");
+
+        employees.stream()
+                .map(e -> e.salary)
+                .sorted()
+                .forEach(System.out::println);
+
+        // Salaries in descending order
+        System.out.println("\nSalaries in descending order:");
+
+        employees.stream()
+                .map(e -> e.salary)
+                .sorted(java.util.Comparator.reverseOrder())
+                .forEach(System.out::println);
+
+        // Count total employees
+        long count = employees.stream().count();
+
+        // Calculate total salary
+        double total = employees.stream()
+                .mapToDouble(e -> e.salary)
+                .sum();
+
+        // Calculate average salary
+        double average = employees.stream()
+                .mapToDouble(e -> e.salary)
+                .average()
+                .orElse(0);
+
+        // Find highest salary
+        double highest = employees.stream()
+                .mapToDouble(e -> e.salary)
+                .max()
+                .orElse(0);
+
+        System.out.println("\nTotal Employees: " + count);
+        System.out.println("Total Salary: " + total);
+        System.out.println("Average Salary: " + average);
+        System.out.println("Highest Salary: " + highest);
+    }
+}
